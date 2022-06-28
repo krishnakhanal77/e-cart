@@ -9,6 +9,13 @@ export const cartreducer = (state = INITIAL_STATE, action) => {
         ...state,
         carts: [...state.carts, action.payload]
       }
+    case "REMOVE_CART":
+      const data = state.carts.filter((element) => element.id !== action.payload);
+      return {
+        ...state,
+        carts: data
+      }
+      
     default:
       return state;
   }

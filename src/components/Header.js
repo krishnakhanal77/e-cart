@@ -1,13 +1,19 @@
 import React from 'react'
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { DEL } from '../redux/actions/action';
 
 const Header = () => {
 
   const getdata = useSelector((state) => state.cartreducer.carts);
   console.log(getdata);
+
+  const dispatch = useDispatch();
+const del = (id)=>{
+  dispatch(DEL(id))
+}
 
   return (
     <>
@@ -21,8 +27,8 @@ const Header = () => {
             </Nav>
           </Navbar.Collapse>
           <Nav className="mx-auto">
-            <Nav.Link href="#home"><AiOutlineShoppingCart/>({getdata.length})</Nav.Link>
-            <Nav.Link href="#link"><AiOutlineUser /></Nav.Link>
+            <NavLink className="text-decoration-none p-1 text-light" to="/cart"><AiOutlineShoppingCart/>({getdata.length})</NavLink>
+            <NavLink className="text-decoration-none p-1 text-light" to="/"><AiOutlineUser /></NavLink>
           </Nav>
         </Container>
       </Navbar>

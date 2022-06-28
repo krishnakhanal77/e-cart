@@ -1,13 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Table } from 'react-bootstrap'
 import { MdDelete } from 'react-icons/md';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { DEL } from '../redux/actions/action';
 
 const CardDetails = () => {
 
   const cartData = useSelector((state) => state.cartreducer.carts);
-  console.log("this is fdsa", cartData);
+ // console.log("this is fdsa", cartData);
+const dispatch = useDispatch();
+const del =(id) =>{
+  dispatch(DEL(id))
+}
+const [price, setPrice] = useState(0);
+console.log(price)
 
+const total = () =>{
+  let price = 0;
+  cartData.map((item, k)=>{
+    price = item.price + price;
+  })
+  setPrice(price)
+}
+ useEffect (()=>{
+total();
+ },[total])
   return (
     <>
       {
@@ -28,13 +45,13 @@ const CardDetails = () => {
                             <tr>
                               <td>
                                 <p> <strong>{cartItem.rname} </strong>: </p>
-                                <p> <strong>Price</strong>: Rs. 500 </p>
+                                <p> <strong>Price</strong>: Rs. {cartItem.price} </p>
                                 <p> <strong>Disches</strong>: Nepali </p>
                               </td>
                               <td>
                                 <p> <strong>Rating</strong>: Momo</p>
                                 <p> <strong>Order Review</strong>: 1000 order from people </p>
-                                <p> <strong>Remove</strong><MdDelete /></p>
+                                <p onClick={() => del(cartItem.id)} > <strong>Remove</strong><MdDelete /></p>
                               </td>
                             </tr>
                           </Table>
@@ -45,7 +62,7 @@ const CardDetails = () => {
                 })
               }
             </Container>
-            <p> <strong>Total</strong>: 500 </p>
+            <p> <strong>Total</strong>: Rs.{price} </p>
           </Container>
           :
           <p>Your cart is empty</p>
